@@ -1,17 +1,24 @@
 const Discord = require('discord.js');
-exports.run = function(client, message, args) {
-  message.reply('Ping Değerim: **' + client.ping + '** ms');
+const client = new Discord.Client();
+
+exports.run = (client, message) => {
+  if (message.channel.type !== 'dm') {
+    const ozelmesajkontrol = new Discord.RichEmbed()
+    .setColor(0xD97634)
+    .setAuthor(message.author.username, message.author.avatarURL)
+    .setDescription('Ping (ms) değerim:   **' + client.ping + '**' );
+    message.channel.sendEmbed(ozelmesajkontrol) }
 };
 
 exports.conf = {
   enabled: true,
   guildOnly: false,
-  aliases: [],
+  aliases: ['p'],
   permLevel: 0
 };
 
 exports.help = {
   name: 'ping',
-  description: 'Botun pingini gösterir.',
+  description: 'Pingi gösterir.',
   usage: 'ping'
 };

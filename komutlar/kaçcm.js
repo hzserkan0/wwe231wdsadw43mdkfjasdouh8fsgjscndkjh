@@ -2,12 +2,10 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 exports.run = (client, message) => {
-			message.channel.send({embed: {
-            color: 0xD97634,
-            "image": {
-            "url": message.author.avatarURL,
-                }
-        }});
+ message.channel.send({embed: {
+          color: 0xD97634,
+		  description: "**Ulan ne sapık adamsın bir de iman edip namaz kılacaksın ülkemizin haline bak ! **"
+            }});
 };
 
 exports.conf = {
@@ -18,7 +16,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name: 'avatarım',
+  name: 'kaçcm',
   description: 'kedileri gösterir.',
-  usage: 'avatarım'
+  usage: 'kaçcm'
 };

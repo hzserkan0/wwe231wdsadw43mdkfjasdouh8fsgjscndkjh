@@ -1,30 +1,31 @@
 const Discord = require('discord.js');
-exports.run = (client, message, args) => {
-  if (!message.guild) {
+exports.run = (client, msg, args) => {
+  if (!msg.guild) {
   const ozelmesajuyari = new Discord.RichEmbed()
   .setColor(0xFF0000)
   .setTimestamp()
-  .setAuthor(message.author.username, message.author.avatarURL)
+  .setAuthor(msg.author.username, msg.author.avatarURL)
   .addField(':warning: Uyarı :warning:', '`kick` adlı komutu özel mesajlarda kullanamazsın.')
-  return message.author.sendEmbed(ozelmesajuyari); }
-  let guild = message.guild
+  return msg.author.sendEmbed(ozelmesajuyari); }
+  let guild = msg.guild
   let reason = args.slice(1).join(' ');
-  let user = message.mentions.users.first();
+  let user = msg.mentions.users.first();
   let modlog = guild.channels.find('name', 'mod-log');
-  if (!modlog) return message.reply(':warning: **Uyarı** :warning:', '`mod-log` **adlı Kanal Bulunamadı!**');
-  if (reason.length < 1) return message.reply('Sunucudan atma sebebini yazmalısın.');
-  if (message.mentions.users.size < 1) return message.reply('Kimi sunucudan atacağını yazmalısın.').catch(console.error);
+  if (!modlog) return msg.reply('`mod-log` kanalını bulamıyorum.');
+  if (reason.length < 1) return msg.reply('Sunucudan atma sebebini yazmalısın.');
+  if (msg.mentions.users.size < 1) return msg.reply('Kimi sunucudan atacağını yazmalısın.').catch(console.error);
 
-  if (!message.guild.member(user).kickable) return message.reply('Yetkilileri sunucudan atamam.');
-  message.guild.member(user).kick();
+  if (!msg.guild.member(user).kickable) return msg.reply('Yetkilileri sunucudan atamam.');
+  msg.guild.member(user).kick();
 
   const embed = new Discord.RichEmbed()
-    .setColor(0x00AE86)
+    .setColor(0xD97634)
     .setTimestamp()
-    .addField('Eylem:', 'Sunucudan atma :bangbang: ')
-    .addField('Atılan Kullanıcı:', `${user.username}#${user.discriminator} (${user.id})`)
-    .addField('Atan Yetkili:', `${message.author.username}#${message.author.discriminator}`)
-    .addField('Atma Sebebi: ', reason);
+	.setAuthor(msg.author.username, msg.author.avatarURL)
+    .addField('Eylem:', 'Sunucudan atma')
+    .addField('Kullanıcı:', `${user.username}#${user.discriminator} (${user.id})`)
+    .addField('Yetkili:', `${msg.author.username}#${msg.author.discriminator}`)
+    .addField('Sebep', reason);
   return guild.channels.get(modlog.id).sendEmbed(embed);
 };
 

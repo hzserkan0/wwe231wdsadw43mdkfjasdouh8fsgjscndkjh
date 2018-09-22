@@ -5,9 +5,8 @@ exports.run = (client, message, args) => {
 	if (mesaj.length < 1) return message.reply('Yazmam için herhangi bir şey yazmalısın.');
     message.delete();
     const embed = new Discord.RichEmbed()
-    .setAuthor("Yazdıran: " + message.author.username)
-    .setColor(3447003)
-    .setDescription(`“${mesaj}”`)
+    .setColor(0xD97634)
+    .setDescription(`**${mesaj}**`)
     return message.channel.sendEmbed(embed);
 };
 

@@ -3,40 +3,40 @@ const ayarlar = require('../ayarlar.json');
 
 var prefix = ayarlar.prefix
 
-exports.run = (client, message, args) => {
-  if (!message.guild) {
+exports.run = (client, msg, args) => {
+  if (!msg.guild) {
   const ozelmesajuyari = new Discord.RichEmbed()
   .setColor(0xFF0000)
   .setTimestamp()
-  .setAuthor(message.author.username, message.author.avatarURL)
-  .addField(':warning: Uyarı :warning:', '`kilit` adlı komutu özel mesajlarda kullanamazsın.')
-  return message.author.sendEmbed(ozelmesajuyari); }
+  .setAuthor(msg.author.username, msg.author.avatarURL)
+  .addField(':warning: Uyarı :warning:', '`**;kilit**` adlı komutu özel mesajlarda kullanamazsın.')
+  return msg.author.sendEmbed(ozelmesajuyari); }
   if (!client.lockit) client.lockit = [];
   let time = args.join(' ');
   let validUnlocks = ['release', 'unlock'];
-  if (!time) return message.reply('Doğru kullanım: ' + prefix + 'kilit <süre örneğin: 2 min>');
+  if (!time) return msg.reply('Doğru kullanım: ' + prefix + 'kilit <süre örneğin: 2 min>');
 
   if (validUnlocks.includes(time)) {
-    message.channel.overwritePermissions(message.guild.id, {
-      SEND_MESSAGES: null
+    msg.channel.overwritePermissions(msg.guild.id, {
+      SEND_msgS: null
     }).then(() => {
-      message.channel.send('Kanal kilidi açıldı.');
-      clearTimeout(client.lockit[message.channel.id]);
-      delete client.lockit[message.channel.id];
+      msg.channel.sendmsg('Kanal kilidi açıldı.');
+      clearTimeout(client.lockit[msg.channel.id]);
+      delete client.lockit[msg.channel.id];
     }).catch(error => {
       console.log(error);
     });
   } else {
-    message.channel.overwritePermissions(message.guild.id, {
-      SEND_MESSAGES: false
+    msg.channel.overwritePermissions(msg.guild.id, {
+      SEND_msgS: false
     }).then(() => {
-      message.channel.send(`Kanal kilitlendi. ${ms(ms(time), { long:true })}`).then(() => {
+      msg.channel.sendmsg(`Kanal kilitlendi. ${ms(ms(time), { long:true })}`).then(() => {
 
-        client.lockit[message.channel.id] = setTimeout(() => {
-          message.channel.overwritePermissions(message.guild.id, {
-            SEND_MESSAGES: null
-          }).then(message.channel.send('Kanalın kilidi açıldı.')).catch(console.error);
-          delete client.lockit[message.channel.id];
+        client.lockit[msg.channel.id] = setTimeout(() => {
+          msg.channel.overwritePermissions(msg.guild.id, {
+            SEND_msgS: null
+          }).then(msg.channel.sendmsg('Kanalın kilidi açıldı.')).catch(console.error);
+          delete client.lockit[msg.channel.id];
         }, ms(time));
 
       }).catch(error => {

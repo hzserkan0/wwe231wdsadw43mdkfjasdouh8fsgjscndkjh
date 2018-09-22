@@ -7,23 +7,51 @@ exports.run = (client, message, params) => {
   if (!params[0]) {
     const commandNames = Array.from(client.commands.keys());
     const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
-    message.author.sendCode('asciidoc', `= Komut Listesi =\n\n[Komut hakkında bilgi için ${ayarlar.prefix}yardım <komut adı>]\n\n${client.commands.map(c => `${ayarlar.prefix}${c.help.name}${' '.repeat(longest - c.help.name.length)} :: ${c.help.description}`).join('\n')}`);
-  if (message.channel.type !== 'dm') {
-    const ozelmesajkontrol = new Discord.RichEmbed()
-    .setColor(0x00AE86)
-    .setTimestamp()
-    .setAuthor(message.author.username, message.author.avatarURL)
-    .setDescription('Özel mesajlarını kontrol et. :postbox:');
-    message.channel.sendEmbed(ozelmesajkontrol) }
-  } else {
-    let command = params[0];
-    if (client.commands.has(command)) {
-      command = client.commands.get(command);
-      message.author.sendCode('asciidoc', `= ${command.help.name} = \n${command.help.description}\nDoğru kullanım: ` + prefix + `${command.help.usage}`);
-    }
-  }
-};
-
+	message.channel.send({embed: {
+            color: 0xD97634,
+            author: {
+              name: "HOZ BOT",
+            },
+			    "thumbnail": {
+				 "url": "http://hizliresim.com/vPBV16"
+			},
+            title: "HOZ BOT KOMUTLAR",
+            url: "http://hozbot.com",
+            description: "",
+            fields: [
+				{
+                name: "Genel Komutlar",
+				inline: true,
+                value: ";**destek**\n;**yardım**\n;**değişiklikler**\n;**istatistikler**\n;**sunucubilgi**\n;**davet**\n;**seviye-sistemi**\n;**ailemiz**"
+			  },
+				{
+                name: "Mod komutları",
+				inline: true,
+                value: ";**temizle**\n;**ban**\n;**duyuruyap**\n;**uyar**\n;**kick**",
+              },
+			  {
+                name: "Eğlenceli Komutlar",
+				inline: true,
+                value: ";**kedi**\n;**köpek**\n;**coolresim**\n;**köpekadı**\n;**kediadı**\n;**randomşifre**\n;**mcödül**\n;**woodie**\n;**emojiyazı**"
+              },
+              {
+                name: "Kullanıcı Komutları",
+				inline: true,
+                value: ";**kullanıcıbilgim**\n;**avatarım**\n;**ping**\n;**madencilik**"
+              },
+              {
+                name: "Güncel Sürüm",
+                value: "v1 BETA"
+              }
+            ],
+            timestamp: new Date(),
+            footer: {
+              text: "© Yeni neslin oyuncağı"
+            }
+          }
+        });  
+	    message.react("👍")
+}};
 exports.conf = {
   enabled: true,
   guildOnly: false,
